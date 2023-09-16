@@ -21,7 +21,7 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
     - name: Build the Docker image
-      run: docker build apprtc --file apprtc-server/Dockerfile --tag pegome/apprtc
+      run: docker build apprtc-server --file apprtc-server/Dockerfile --tag pegome/apprtc
       
     - name: Docker Push
       run: docker push pegome/apprtc
