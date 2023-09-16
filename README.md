@@ -1,4 +1,6 @@
-# AppRTC Docker with SSL
+Out-of-the-box docker images for AppRTC server with SSL support and inbuilt TURN server 
+
+# AppRTC server with SSL support and inbuilt TURN server  
 
 Linux:
 ``` bash
