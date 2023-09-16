@@ -1,5 +1,5 @@
-FROM ubuntu:xenial
-LABEL maintainer="Piasy Xu (xz4215@gmail.com)"
+FROM --platform=linux/amd64 ubuntu:bionic
+LABEL maintainer="Hyunjoon Ko (linus@vlending.co.kr)"
 
 EXPOSE 8080 8089 3478 3033 59000-65000
 
@@ -12,13 +12,18 @@ ENV COTURN_VER 4.5.0.7
 
 ENV PUBLIC_IP 127.0.0.1
 
+# install python 3
 RUN apt-get update -y
+RUN apt-get install -y software-properties-common
+RUN apt-add-repository ppa:deadsnakes/ppa
+RUN apt-get install -y python3.7
+RUN apt-get install -y python3-pip
 
 # Deps
-RUN apt-get install -y build-essential vim git curl wget unzip python2.7 python-pil python-webtest python-pip libssl-dev openjdk-8-jdk apache2 && \
-    rm -rf /usr/lib/python2.7/dist-packages/supervisor* && \
-    pip install supervisor requests && \
-    pip install git+https://github.com/bendikro/supervisord-dependent-startup
+RUN apt-get install -y build-essential vim git curl wget unzip python-pil python-webtest libssl-dev openjdk-8-jdk apache2&& \
+    rm -rf /usr/lib/python3.7/dist-packages/supervisor* && \
+    pip3 install supervisor requests && \
+    pip3 install git+https://github.com/bendikro/supervisord-dependent-startup
 
 ########### Apache2 SSL vsilva
 RUN a2enmod proxy* ssl headers
@@ -29,12 +34,12 @@ RUN a2ensite *ssl
 
 # WS copy CA ssl certs
 RUN mkdir -p /cert
-COPY cert-pebble.pem /cert
-COPY key-pebble.pem /cert
+COPY cert-pebble.pem /cert/cert.pem
+COPY key-pebble.pem /cert/key.pem
 ###########
 
 # NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_15.x | bash -
 RUN apt-get install -y nodejs
 
 # Golang
@@ -67,6 +72,7 @@ COPY turnserver.conf /etc/turnserver.conf
 
 # AppRTC
 WORKDIR /
+RUN rm -rf apprtc
 RUN git clone https://github.com/webrtc/apprtc.git
 
 WORKDIR apprtc
