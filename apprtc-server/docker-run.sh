@@ -4,7 +4,6 @@ ip=`hostname -i`
 if [ "$1" != "" ] ; then
 	ip=$1
 fi
-ip=apprtc.privatesmsbox.com
 docker stop webrtc
 sleep 1
 docker rm webrtc

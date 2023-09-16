@@ -1,6 +1,7 @@
 FROM --platform=linux/amd64 ubuntu:bionic
-LABEL maintainer="Hyunjoon Ko (linus@vlending.co.kr)"
-
+LABEL maintainer="Parag Patel (paragpatel100@gmail.com)"
+#ref: https://github.com/HyunjoonKo/WebRTC-Docker
+#ref:https://github.com/Shark-y/WebRTC-Docker
 EXPOSE 8080 8089 3478 3033 59000-65000
 
 WORKDIR /
